@@ -1,1 +1,54 @@
+3)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
+namespace _13._03._2025
+{
+    class ex3
+    {
+        static void Main(string[] args)
+        {
+            Stack<int> stack = new Stack<int>(); // принцип стека: первым зашел последним вышел
+            stack.Push(1); // поэтому вывелся перевернутым
+            stack.Push(2);
+            stack.Push(3);
+            stack.Push(4);
+            stack.Push(5);
+            foreach (var item in stack)
+            {
+                Console.Write(item);
+            }
+        }
+    }
+}
+--------------------------------------------------------------------------------------
+4)
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _13._03._2025
+{
+    class ex4
+    {
+        static void Main(string[] args)
+        {
+            Queue<int> queue = new Queue<int>(); //принцип очереди: первым зашел первым вышел
+            queue.Enqueue(1);
+            queue.Enqueue(2);
+            queue.Enqueue(3);
+            queue.Enqueue(4);
+            queue.Enqueue(5);
+            foreach (var item in queue)
+            {
+                Console.Write(item);
+            }
+        }
+    }
+}
