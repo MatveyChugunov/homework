@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _20._03._2025
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Car car = new Car("Mazda rx7", 1998);
+
+            car.Drive(100);
+            car.Drive(-10);
+            car.DisplayInfo();
+        }
+
+        public class Car
+        {
+            private string brand;
+            private int year;
+            private int mileage = 0;
+
+            public Car(string brand, int year)
+            {
+                this.brand = brand;
+                this.year = year;
+            }
+
+            public void Drive(int km)
+            {
+                if (km > 0)
+                {
+                    mileage += km;
+                }
+            }
+            public void DisplayInfo()
+            {
+                Console.WriteLine($"Марка авто: {brand}\nГод выпуска: {year}\nПробег: {mileage}");
+            }
+
+            ~Car()
+            {
+                Console.WriteLine("Объект уничтожен");
+            }
+        }
+    }
+}
