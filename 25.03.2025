@@ -1,0 +1,174 @@
+1)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _25._03._2025
+{
+    class ex1
+    {
+        static void Main(string[] args)
+        {
+            BankAccount bank = new BankAccount("1234", 10000);
+            Console.WriteLine(bank.Balance);
+            bank.Deposit(1000);
+            Console.WriteLine(bank.Balance);
+            bank.Withdraw(1500);
+            Console.WriteLine(bank.Balance);
+        }
+
+        public class BankAccount
+        {
+            public string AccountNumber { get; }
+            public double Balance { get; private set; }
+
+            public BankAccount(string AccountNumber, double Balance)
+            {
+                this.AccountNumber = AccountNumber;
+                this.Balance = Balance;
+            }
+
+            public void Deposit(int amount)
+            {
+                if (amount > 0)
+                {
+                    Balance += amount;
+                }
+            }
+
+            public void Withdraw(int amount)
+            {
+                if (Balance - amount > 0)
+                {
+                    Balance -= amount;
+                }
+            }
+        }
+    }
+}
+--------------------------------------------------------------------------------------
+2)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _25._03._2025
+{
+    class ex2
+    {
+        static void Main(string[] args)
+        {
+            Person p = new Person("Matvey");
+            p.Age = 15;
+            Console.WriteLine("Name: " + p.Name + "\nAge: " + p.Age);
+        }
+        public class Person
+        {
+            public string Name;
+            private int age;
+            public int Age
+            {
+                get { return age; }
+
+                set
+                {
+                    if (value < 18)
+                    {
+                        Console.WriteLine("Несовершеннолетний пользователь");
+                    }
+                    age = value;
+                }
+            }
+
+            public Person(string name)
+            {
+                Name = name;
+            }
+
+        }
+    }
+}
+-----------------------------------------------------------------------------------------------
+3)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _25._03._2025
+{
+    class ex3
+    {
+        static void Main(string[] args)
+        {
+            MathHelper mathHelper = new MathHelper();
+
+            Console.WriteLine(mathHelper.Square(4));   // 16
+            Console.WriteLine(mathHelper.Factorial(5)); // 120
+            Console.WriteLine(mathHelper.IsPrime(7));  // true
+        }
+        class MathHelper
+        {
+            public int Square(int number)
+            {
+                return number * number;
+            }
+
+            public int Factorial(int number)
+            {
+                if (number == 1) return 1;
+                return number * Factorial(number - 1);
+            }
+
+            public bool IsPrime(int number)
+            {
+                bool result = false;
+                for (int i = 2; i < number; i++)
+                {
+                    if (number % i == 0)
+                    {
+                        result = false;
+                        break;
+                    }
+                    result = true;
+                }
+                return result;
+            }
+        }
+    }
+}
+---------------------------------------------------------------------------------------------------
+4)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _25._03._2025
+{
+    class ex4
+    {
+        static void Main(string[] args)
+        {
+            Logger.LogLevel = "INFO";
+            Logger.Log("Программа запущена");
+            Logger.LogLevel = "ERROR";
+            Logger.Log("Ошибка соединения");
+        }
+        class Logger
+        {
+            public static string LogLevel { get; set; }
+
+            public static void Log(string message)
+            {
+                Console.WriteLine("[" + LogLevel + "]" + " " + message);
+            }
+        }
+    }
+}
