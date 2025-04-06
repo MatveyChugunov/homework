@@ -1,0 +1,73 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Policy;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _27._03._2025
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Triangle t = new Triangle(15, 20, 25, 12);
+            Parallelogram p = new Parallelogram(10, 5, 4);
+        }
+
+        public abstract class Shape
+        {
+            public abstract double Area();
+            public abstract double Perimetr();
+        }
+
+        public class Triangle : Shape
+        {
+            public double side1 { get; private set; }
+            public double side2 { get; private set; }
+            public double side3 { get; private set; }
+            public double height { get; private set; }
+
+            public Triangle(double side1, double side2, double side3, double height)
+            {
+                this.side1 = side1;
+                this.side2 = side2;
+                this.side3 = side3;
+                this.height = height;
+            }
+            public override double Area()
+            {
+                return side3 * height / 2;
+            }
+
+            public override double Perimetr()
+            {
+                return side1 + side2 + side3;
+            }
+        }
+
+        public class Parallelogram : Shape
+        {
+            public double side1 { get; private set; }
+            public double side2 { get; private set; }
+            public double height { get; private set; }
+
+            public Parallelogram(double side1, double side2, double height)
+            {
+                this.side1 = side1;
+                this.side2 = side2;
+                this.height = height;
+            }
+
+            public override double Area()
+            {
+                return side1 * height;
+            }
+            public override double Perimetr()
+            {
+                return (side1 + side2) * 2;
+            }
+        }
+
+    }
+}
