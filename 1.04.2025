@@ -1,0 +1,148 @@
+1)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _1._04._2025
+{
+    class ex1
+    {
+        static void Main(string[] args)
+        {
+            List<int> numbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            List<int> evenNumbers = FilterEvenNumbers(numbers);
+
+            Console.WriteLine(string.Join(", ", evenNumbers));
+        }
+
+        public static List<int> FilterEvenNumbers(List<int> numbers)
+        {
+            List<int> result = new List<int>();
+            foreach (int item in numbers)
+            {
+                if (item % 2 == 0)
+                {
+                    result.Add(item);
+                }
+            }
+            return result;
+        }
+    }
+}
+-------------------------------------------------------------------------------------------
+2)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _1._04._2025
+{
+    class ex2
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, int> students = new Dictionary<string, int> {
+                { "Алексей", 75 },
+                { "Мария", 90 },
+                { "Иван", 85 },
+                { "Светлана", 60 }
+            };
+
+            Console.WriteLine("Студенты с баллом выше 80: ");
+            PrintBestStudents(students);
+        }
+
+        public static void PrintBestStudents(Dictionary<string, int> dictionary)
+        {
+            foreach (var item in dictionary)
+            {
+                if (item.Value > 80)
+                {
+                    Console.WriteLine(item.Key + " - " + item.Value);
+                }
+            }
+        }
+    }
+}
+-------------------------------------------------------------------------------------------
+3)
+using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _1._04._2025
+{
+    class ex3
+    {
+        static void Main(string[] args)
+        {
+            Box<int> intBox = new Box<int>(10);
+            Console.WriteLine(intBox.GetValue()); // 10
+            intBox.SetValue(20);
+            Console.WriteLine(intBox.GetValue()); // 20
+
+            Box<string> strBox = new Box<string>("Hello");
+            Console.WriteLine(strBox.GetValue()); // Hello
+        }
+
+        public class Box<T>
+        {
+            T value;
+
+            public Box(T value)
+            {
+                this.value = value;
+            }
+
+            public T GetValue()
+            {
+                return value;
+            }
+            public void SetValue(T value)
+            {
+                this.value = value;
+            }
+        }
+    }
+}
+----------------------------------------------------------------------------
+4)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _1._04._2025
+{
+    class ex4
+    {
+        static void Main(string[] args)
+        {
+            int a = 5, b = 10;
+            Swap(ref a, ref b);
+            Console.WriteLine($"{a}, {b}"); // 10, 5
+
+            string x = "Apple", y = "Orange";
+            Swap(ref x, ref y);
+            Console.WriteLine($"{x}, {y}"); // Orange, Apple
+
+        }
+
+        public static void Swap<T>(ref T a, ref T b)
+        {
+            T temp;
+
+            temp = a;
+            a = b;
+            b = temp;
+        }
+    }
+}
