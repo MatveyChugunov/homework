@@ -1,0 +1,169 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace занятия
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            #region автосвойства
+            try
+            {
+                Fraction fr1 = new Fraction(3, 0);
+
+                Fraction fr2 = new Fraction(2, 5);
+                Fraction resultMulti = Fraction.Multi(fr1, fr2);
+                Fraction resultDivision = Fraction.Division(fr1, fr2);
+                Fraction resultSum = Fraction.Sum(fr1, fr2);
+                Fraction resultSubtract = Fraction.Subtract(fr1, fr2);
+                Console.WriteLine("Дробь: " + fr1);
+                Console.WriteLine("Десятичная дробь: " + fr1.metod(fr1.Numerator, fr1.Denumerator));
+                Console.WriteLine("Дробь: " + fr2);
+                Console.WriteLine("Десятичная дробь: " + fr2.metod(fr2.Numerator, fr2.Denumerator));
+                Console.WriteLine("Умножение: " + resultMulti);
+                Console.WriteLine("Деление: " + resultDivision);
+                Console.WriteLine("Сложение: " + resultSum);
+                Console.WriteLine("Вычитание: " + resultSubtract);
+            }catch(NotCorrectlyDenominatorException ex)
+            {
+                Console.WriteLine(ex.Message + ex.UnCorrectDenominator);
+            }
+            #endregion
+
+        }
+
+        public class Fraction
+        {
+            private int _numerator;
+            private int _denumerator;
+
+            public int Numerator
+            {
+                get
+                {
+                    return _numerator;
+                }
+                set
+                {
+                    _numerator = value;
+                }
+            }
+
+            public int Denumerator
+            {
+                get
+                {
+                    return _denumerator;
+                }
+                set
+                {
+                    if (value == 0)
+                    {
+                        throw new NotCorrectlyDenominatorException("Знаменатель не может равняться ", value);
+                    }
+                    else _denumerator = value;
+                }
+            }
+
+            public Fraction(int num, int denum) //конструктор
+            {
+                Numerator = num;
+                Denumerator = denum;
+
+                Simplify();
+            }
+
+            public static Fraction Multi(Fraction f1, Fraction f2)
+            {
+                int resultNum = f1.Numerator * f2.Numerator;
+
+                int resultDenum = f1.Denumerator * f2.Denumerator;
+
+                Fraction result = new Fraction(resultNum, resultDenum);
+
+                return result;
+            }
+
+            public static Fraction Division(Fraction f1, Fraction f2)
+            {
+                int resultNum = f1.Numerator * f2.Denumerator;
+
+                int resultDenum = f1.Denumerator * f2.Numerator;
+
+                Fraction result = new Fraction(resultNum, resultDenum);
+
+                return result;
+            }
+
+            public static Fraction Sum(Fraction f1, Fraction f2)
+            {
+                int resultDenum = f1.Denumerator * f2.Denumerator;
+
+                int resultNum = f1.Numerator * f2.Denumerator + f2.Numerator * f1.Denumerator;
+
+                Fraction result = new Fraction(resultNum, resultDenum);
+
+                return result;
+            }
+
+            public static Fraction Subtract(Fraction f1, Fraction f2)
+            {
+                int resultDenum = f1.Denumerator * f2.Denumerator;
+
+                int resultNum = f1.Numerator * f2.Denumerator - f2.Numerator * f1.Denumerator;
+
+                Fraction result = new Fraction(resultNum, resultDenum);
+
+
+
+                return result;
+            }
+
+            public void Simplify()
+            {
+                int gcd = GCD(Numerator, Denumerator);
+
+                Numerator /= gcd;
+                Denumerator /= gcd;
+            }
+
+            public int GCD(int a, int b)
+            {
+                while (b > 0)
+                {
+                    int temp = b;
+                    b = a % b;
+                    a = temp;
+                }
+
+                return a;
+            }
+
+            public double metod(int a, int b)
+            {
+                double c = Convert.ToDouble(a) / Convert.ToDouble(b);
+                return c;
+
+            }
+
+            public override string ToString()
+            {
+                return $"{Numerator}/{Denumerator}";
+            }
+        }
+
+        public class NotCorrectlyDenominatorException : Exception
+        {
+            public int UnCorrectDenominator { get; set; }
+            public NotCorrectlyDenominatorException(string message, int denominator) : base(message)
+            {
+                UnCorrectDenominator = denominator;
+            }
+        }
+    }
+}
