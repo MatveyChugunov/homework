@@ -1,0 +1,87 @@
+1)
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _8._04._2025
+{
+    internal class ex1
+    {
+        static void Main(string[] args)
+        {
+
+
+            WriteToFile(@"C:\Users\pc10\Downloads\text1.txt", "Hello world");
+        }
+
+        public static void WriteToFile(string path, string message)
+        {
+            try
+            {
+
+                using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+                {
+
+                    byte[] buffer = new byte[message.Length];
+
+                    buffer = Encoding.UTF8.GetBytes(message);
+
+                    stream.Write(buffer, 0, buffer.Length);
+
+                    stream.Close();
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Message: " + ex.Message);
+            }
+        }
+    }
+}
+---------------------------------------------------------------------------------------------------------------------
+2)
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _8._04._2025
+{
+    internal class ex2
+    {
+        static void Main(string[] args)
+        {
+            ReadFromFile(@"C:\Users\pc10\Downloads\text1.txt");
+        }
+
+        public static void ReadFromFile(string path)
+        {
+            try
+            {
+
+                using(FileStream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Read))
+                {
+                    byte[] buffer = new byte[stream.Length];
+
+                    stream.Read(buffer, 0, buffer.Length);
+
+                    string message = Encoding.UTF8.GetString(buffer);
+
+                    Console.WriteLine(message);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Message: " + ex.Message);
+            }
+        }
+    }
+}
