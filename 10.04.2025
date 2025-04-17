@@ -1,0 +1,202 @@
+1)
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _10._04._2025
+{
+    internal class ex1
+    {
+        static void Main(string[] args)
+        {
+            string exit = "";
+            string message;
+            while (exit != "exit")
+            {
+                Console.Write("Введите строку(exit - завершить): ");
+                message = Console.ReadLine();
+                exit = message;
+                if (exit == "exit")
+                {
+                    break;
+                }
+                WriteToFile(@"C:\Users\pc10\Downloads\text1.txt", message);
+
+            }
+        }
+
+        public static void WriteToFile(string path, string message)
+        {
+            try
+            {
+
+                using (FileStream stream = new FileStream(path, FileMode.Append, FileAccess.Write))
+                {
+
+                    byte[] buffer = new byte[message.Length];
+
+                    buffer = Encoding.UTF8.GetBytes(message + "\r\n");
+
+                    stream.Write(buffer, 0, buffer.Length);
+
+                    stream.Close();
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Message: " + ex.Message);
+            }
+        }
+    }
+}
+--------------------------------------------------------------------------------------------------------------
+2)
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _10._04._2025
+{
+    internal class ex2
+    {
+        static void Main(string[] args)
+        {
+            AnalyzeFile(@"C:\Users\pc10\Downloads\text1.txt");
+        }
+
+        public static void AnalyzeFile(string path)
+        {
+            int strings;
+            int words;
+            int simbols;
+
+            try
+            {
+
+                using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Read))
+                {
+                    byte[] buffer = new byte[stream.Length];
+
+                    stream.Read(buffer, 0, buffer.Length);
+
+                    string message = Encoding.UTF8.GetString(buffer);
+
+                    string[] message1 = message.Split('\n');
+                    strings = message1.Length;
+                    string[] message2 = message.Split(' ', '\n');
+                    words = message2.Length;
+                    simbols = message.Length;
+                }
+
+                Console.WriteLine("Строк: " + strings);
+                Console.WriteLine("Слов: " + words);
+                Console.WriteLine("Символов: " + simbols);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Message: " + ex.Message);
+            }
+
+
+        }
+    }
+}
+--------------------------------------------------------------------------------------------------------------
+3)
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _10._04._2025
+{
+    internal class ex3
+    {
+        static void Main(string[] args)
+        {
+            string path = @"C:\Users\pc10\Downloads\text1.txt";
+            ReplaceWordInFile(path, "world", "Ben");
+        }
+
+        public static void ReplaceWordInFile(string path, string oldWord, string newWord)
+        {
+            try
+            {
+
+                using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Read))
+                {
+                    byte[] buffer = new byte[stream.Length];
+
+                    stream.Read(buffer, 0, buffer.Length);
+
+                    string message = Encoding.UTF8.GetString(buffer);
+
+                    stream.Close();
+
+                    WriteFile(path, message.Replace(oldWord, newWord));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Message: " + ex.Message);
+            }
+        }
+
+        public static void ReadFile(string path)
+        {
+            try
+            {
+
+                using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Read))
+                {
+                    byte[] buffer = new byte[stream.Length];
+
+                    stream.Read(buffer, 0, buffer.Length);
+
+                    string message = Encoding.UTF8.GetString(buffer);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Message: " + ex.Message);
+            }
+        }
+        public static void WriteFile(string path, string message)
+        {
+            try
+            {
+
+                using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Write))
+                {
+
+                    byte[] buffer = new byte[message.Length];
+
+                    buffer = Encoding.UTF8.GetBytes(message + "\r\n");
+
+                    stream.Write(buffer, 0, buffer.Length);
+
+                    stream.Close();
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Message: " + ex.Message);
+            }
+        }
+    }
+}
