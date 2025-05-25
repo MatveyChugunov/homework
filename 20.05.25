@@ -1,0 +1,215 @@
+1)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static _20._05._25.ex1;
+
+namespace _20._05._25
+{
+    class ex1
+    {
+        static void Main(string[] args)
+        {
+
+            Console.WriteLine("1 - Светлая тема, 2 - Тёмная тема");
+            int choice = int.Parse(Console.ReadLine());
+
+            ThemeFactory factory = null;
+
+            switch (choice)
+            {
+                case 1:
+                    factory = new LightFactory();
+                    break;
+
+                case 2:
+                    factory = new DarkFactory();
+                    break;
+            }
+
+            var Client = new Client(factory);
+
+            Client.start();
+        }
+
+        public abstract class Theme
+        {
+            public abstract void theme();
+        }
+
+        public class Light : Theme
+        {
+            public override void theme()
+            {
+                Console.WriteLine("Создано окно: Светлое.\r\nСоздана кнопка: Светлая.");
+            }
+        }
+
+        public class Dark : Theme
+        {
+            public override void theme()
+            {
+                Console.WriteLine("Создано окно: Тёмное.\r\nСоздана кнопка: Тёмная.");
+            }
+        }
+
+        public abstract class ThemeFactory
+        {
+            public abstract Theme CreateTheme();
+        }
+
+        public class LightFactory : ThemeFactory
+        {
+            public override Theme CreateTheme()
+            {
+                return new Light();
+            }
+        }
+        public class DarkFactory : ThemeFactory
+        {
+            public override Theme CreateTheme()
+            {
+                return new Dark();
+            }
+        }
+
+        public class Client
+        {
+            Theme theme;
+
+            public Client(ThemeFactory factory)
+            {
+                theme = factory.CreateTheme();
+            }
+
+            public void start()
+            {
+                theme.theme();
+            }
+        }
+    }
+}
+------------------------------------------------------------------
+2)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ex2
+{
+    class ex2
+    {
+        static void Main(string[] args)
+        {
+            ComputerBuilder warriorbuilder = new GamingPCBuilder();
+            ComputerBuilder magebuilder = new OfficePCBuilder();
+            ComputerDirector director1 = new ComputerDirector(warriorbuilder);
+            ComputerDirector director2 = new ComputerDirector(magebuilder);
+
+            director1.BuildComputer();
+            director2.BuildComputer();
+
+            Computer GaminPC = director1.GetComputer();
+            Computer OfficePC = director2.GetComputer();
+
+            Console.WriteLine("Gaming PC:");
+            Console.WriteLine(GaminPC + "\n");
+            Console.WriteLine("Office PC:");
+            Console.WriteLine(OfficePC + "\n");
+        }
+
+        public class Computer
+        {
+            public string CPU { get; set; }
+            public int RAM { get; set; }
+            public int HDD { get; set; }
+            public string Videocard { get; set; }
+
+            public override string ToString()
+            {
+                return $"Тип ЦП: {CPU}\n" +
+                    $"Объём ОЗУ: {RAM}\n" +
+                    $"Объём диска: {HDD}\n" +
+                    $"Тип видеокарты: {Videocard}";
+            }
+        }
+
+        public abstract class ComputerBuilder
+        {
+            protected Computer computer = new Computer();
+
+            public abstract void SetCPU();
+            public abstract void SetVideocard();
+            public abstract void SetAttributes();
+
+            public Computer GetResult()
+            {
+                return computer;
+            }
+        }
+
+        public class GamingPCBuilder : ComputerBuilder
+        {
+            public override void SetAttributes()
+            {
+                computer.RAM = 16;
+                computer.HDD = 1024;
+            }
+
+            public override void SetCPU()
+            {
+                computer.CPU = "AMD Ryzen 9 9800X3D";
+            }
+
+            public override void SetVideocard()
+            {
+                computer.Videocard = "NVIDIA RTX 5090 TI";
+            }
+        }
+
+        public class OfficePCBuilder : ComputerBuilder
+        {
+            public override void SetAttributes()
+            {
+                computer.RAM = 8;
+                computer.HDD = 256;
+            }
+
+            public override void SetCPU()
+            {
+                computer.CPU = "Intel Celeron G5905";
+            }
+
+            public override void SetVideocard()
+            {
+                computer.Videocard = "Intel HD Graphics";
+            }
+        }
+
+        public class ComputerDirector
+        {
+            private ComputerBuilder builder;
+
+            public ComputerDirector(ComputerBuilder builder)
+            {
+                this.builder = builder;
+            }
+
+            public void BuildComputer()
+            {
+                builder.SetCPU();
+                builder.SetVideocard();
+                builder.SetAttributes();
+            }
+
+            public Computer GetComputer()
+            {
+                return builder.GetResult();
+            }
+        }
+    }
+}
