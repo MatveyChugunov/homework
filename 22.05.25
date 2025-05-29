@@ -1,0 +1,173 @@
+1)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _22._05._2009
+{
+    class ex1
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Выберите тип доставки: 1 - Пицца, 2 - Суши, 3 - Бургер");
+            int choice = int.Parse(Console.ReadLine());
+            Delivery delivery = null;
+
+            switch (choice)
+            {
+                case 1:
+                    delivery = new PizzaDelivery();
+                    Console.WriteLine("Вы выбрали доставку: Пицца");
+                    delivery.Prepair();
+                    break;
+                case 2:
+                    delivery = new SushiDelivery();
+                    Console.WriteLine("Вы выбрали доставку: Суши");
+                    delivery.Prepair();
+                    break;
+                case 3:
+                    delivery = new BurgerDelivery();
+                    Console.WriteLine("Вы выбрали доставку: Бургеры");
+                    delivery.Prepair();
+                    break;
+            }
+        }
+
+        public abstract class Food
+        {
+
+        }
+
+        public class Pizza : Food
+        {
+            
+        }
+
+        public class Sushi : Food
+        {
+            
+        }
+
+        public class Burger : Food
+        {
+            
+        }
+
+        public abstract class Delivery
+        {
+            public abstract void Prepair();
+            public abstract Food CreateFood();
+
+            public void Deliver()
+            {
+                var food = CreateFood();
+            }
+        }
+
+        public class PizzaDelivery : Delivery
+        {
+            public override void Prepair()
+            {
+                Console.WriteLine("Пицца доставляется в квадратной коробке");
+            }
+            public override Food CreateFood()
+            {
+                return new Pizza();
+            }
+        }
+
+        public class SushiDelivery : Delivery
+        {
+            public override void Prepair()
+            {
+                Console.WriteLine("Суши доставляются в контейнере");
+            }
+            public override Food CreateFood()
+            {
+                return new Sushi();
+            }
+        }
+
+        public class BurgerDelivery : Delivery
+        {
+            public override void Prepair()
+            {
+                Console.WriteLine("Бургер доставляется в крафтовом пакете");
+            }
+            public override Food CreateFood()
+            {
+                return new Burger();
+            }
+        }
+    }
+}
+------------------------------------------------------------------------------------------
+2)
+using System;                           
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _22._05._2009
+{
+    class ex2
+    {
+        static void Main(string[] args)
+        {
+            Client client = new Client();               //Еще не доделал 
+            
+        }
+
+        public interface IClonablePrototype<T>
+        {
+            T Clone();
+        }
+
+
+        public class OrderSet : IClonablePrototype<OrderSet>
+        {
+
+            
+
+            public List<string> orderSetList = new List<string>();
+
+            public OrderSet(string Pizza, string Sushi, string Burger)
+            {
+                orderSetList.Add(Pizza);
+                orderSetList.Add(Sushi);
+                orderSetList.Add(Burger);
+            }
+
+            public void AddFood(string food)
+            {
+                orderSetList.Add(food);
+            }
+
+            public void RemoveFood(string food)
+            {
+                orderSetList.Remove(food);
+            }
+
+            OrderSet IClonablePrototype<OrderSet>.Clone()
+            {
+                return (OrderSet)MemberwiseClone();
+            }
+        }
+
+        public class Client
+        {
+            public static IClonablePrototype<OrderSet> orderSet = new OrderSet();
+
+            public IClonablePrototype<OrderSet> clonedOrderSet = orderSet.Clone();
+
+            public void AddFood()
+            {
+                
+            }
+
+        }
+    }
+}
