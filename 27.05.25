@@ -1,0 +1,139 @@
+1)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _5_
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            GameSettings settings1 = GameSettings.GetSettings();
+            settings1.SetVolume(50);
+            settings1.SetDifficulty("Hard");
+            settings1.SetLanguage("English");
+
+            GameSettings settings2 = GameSettings.GetSettings();
+            settings2.PrintSettings();
+
+            settings2.SetVolume(70);
+            settings1.PrintSettings();
+        }
+
+        public class GameSettings
+        {
+            private static GameSettings instance;
+            private int volume { get; set; }
+            private string difficult { get; set; }
+            private string language { get; set; }
+
+
+            private GameSettings()
+            {
+                Console.WriteLine("Настройки созданы");
+            }
+
+            public static GameSettings GetSettings()
+            {
+                if (instance == null)
+                {
+                    instance = new GameSettings();
+                }
+                return instance;
+            }
+
+            public void SetVolume(int volume)
+            {
+                this.volume = volume;
+            }
+
+            public void SetDifficulty(string difficult)
+            {
+                this.difficult = difficult;
+            }
+
+            public void SetLanguage(string language)
+            {
+                this.language = language;
+            }
+
+            public void PrintSettings()
+            {
+                Console.WriteLine($"Громкость: {volume}\n Сложность: {difficult}\n Язык: {language}");
+            }
+        }
+    }
+}
+----------------------------------------------------------------------------------------------------------
+2)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Adapter
+{
+    internal class Adapter
+    {
+        static void Main(string[] args)
+        {
+            IPaymentProcessor paymentProcessor = new PaymentAdapter();
+
+            paymentProcessor.ProcessPayment("Bank", 100.50);
+            paymentProcessor.ProcessPayment("Wallet", 75.25);
+            paymentProcessor.ProcessPayment("Card", 50.00);
+
+        }
+
+        public class BankTransfer
+        {
+            public void ProcessBankPayment(string method, double amount)
+            {
+                
+            }
+        }
+
+        public interface IPaymentProcessor
+        {
+            void ProcessPayment(string method, double amount);
+            void CorrectMethod(string method, double amount);
+
+        }
+
+        public class WalletPayment
+        {
+            public void ProcessWalletPayment(string walletId, double amount)
+            {
+                
+            }
+        }
+
+        public class PaymentAdapter : IPaymentProcessor
+        {
+            public void CorrectMethod(string method, double amount)
+            {
+                if (method != "Bank" && method != "Wallet")
+                {
+                    Console.WriteLine("Некорректный метод");
+                }
+                else
+                {
+                    Console.WriteLine(method);
+                    Console.WriteLine(amount);
+                }
+                
+            }
+
+
+            public void ProcessPayment(string method, double amount)
+            {
+                CorrectMethod(method, amount);
+            }
+
+        }
+    }
+}
