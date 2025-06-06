@@ -117,7 +117,14 @@ namespace _22._05._2009
     {
         static void Main(string[] args)
         {
-            Client client = new Client();               //Еще не доделал 
+            OrderSet orderSet = new OrderSet();
+
+            Console.WriteLine("Базовый набор:");
+            orderSet.Display();
+
+            Console.WriteLine("Клонированный набор (изменённый):");
+            Client client = new Client(orderSet);
+
             
         }
 
@@ -130,16 +137,7 @@ namespace _22._05._2009
         public class OrderSet : IClonablePrototype<OrderSet>
         {
 
-            
-
-            public List<string> orderSetList = new List<string>();
-
-            public OrderSet(string Pizza, string Sushi, string Burger)
-            {
-                orderSetList.Add(Pizza);
-                orderSetList.Add(Sushi);
-                orderSetList.Add(Burger);
-            }
+            public List<string> orderSetList = new List<string>{"Pizza", "Sushi", "Burger" };
 
             public void AddFood(string food)
             {
@@ -151,7 +149,15 @@ namespace _22._05._2009
                 orderSetList.Remove(food);
             }
 
-            OrderSet IClonablePrototype<OrderSet>.Clone()
+            public void Display()
+            {
+                foreach(string item in orderSetList)
+                {
+                    Console.WriteLine(item);
+                }
+            }
+
+            public OrderSet Clone()
             {
                 return (OrderSet)MemberwiseClone();
             }
@@ -159,15 +165,20 @@ namespace _22._05._2009
 
         public class Client
         {
-            public static IClonablePrototype<OrderSet> orderSet = new OrderSet();
+            private OrderSet orderSet1;
+            private OrderSet orderSet2;
 
-            public IClonablePrototype<OrderSet> clonedOrderSet = orderSet.Clone();
-
-            public void AddFood()
+            public Client(OrderSet orderSet)
             {
-                
+                orderSet1 = orderSet;
+                orderSet2 = orderSet1.Clone();
+
+                orderSet2.RemoveFood("Pizza");
+                orderSet2.Display();
             }
+            
 
         }
     }
+}
 }
