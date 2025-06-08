@@ -1,0 +1,196 @@
+1)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _29._05._25
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ITransport car = new Car();
+            ITransport truck = new Truck();
+
+            Electric eCar = new Electric(car);
+            Petrol pCar = new Petrol(car);
+            Electric eTruck = new Electric(truck);
+            Petrol pTruck = new Petrol(truck);
+
+            eCar.Drive(eCar.electric);
+            pCar.Drive(pCar.petrol);
+            eTruck.Drive(eTruck.electric);
+            pTruck.Drive(pTruck.petrol);
+        }
+
+        public interface ITransport
+        {
+            void Drive(string engine);
+        }
+
+        public class Car : ITransport
+        {
+            public void Drive(string engine)
+            {
+                if (engine == "бензиновый")
+                {
+                    Console.WriteLine("Машина с бензиновым двигателем едет");
+                }
+                else
+                {
+                    Console.WriteLine("Машина с электрическим двигателем едет");
+                }
+            }
+        }
+
+        public class Truck : ITransport
+        {
+            public void Drive(string engine)
+            {
+                if (engine == "бензиновый")
+                {
+                    Console.WriteLine("Грузовик с бензиновым двигателем везет груз");
+                }
+                else
+                {
+                    Console.WriteLine("Грузовик с электрическим двигателем везет груз");
+                }
+            }
+        }
+
+        public class Electric : ITransport
+        {
+            public ITransport transport;
+            public string electric = "электрический";
+
+            public Electric(ITransport transport)
+            {
+                this.transport = transport;
+            }
+
+            public void Drive(string engine)
+            {
+                transport.Drive(engine);
+            }
+        }
+
+        public class Petrol : ITransport
+        {
+            public ITransport transport;
+            public string petrol = "бензиновый";
+
+            public Petrol(ITransport transport)
+            {
+                this.transport = transport;
+            }
+
+            public void Drive(string engine)
+            {
+                transport.Drive(engine);
+            }
+        }
+
+
+    }
+}
+------------------------------------------------------------------
+2)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Folder mainFolder = new Folder("Мой компьютер");
+
+            Folder folder1 = new Folder("Документы");
+            Folder folder2 = new Folder("Музыка");
+
+
+            File file1 = new File("Реферат.docx");
+            File file2 = new File("Список.xlsx");
+            File file3 = new File("Песня.mp3");
+            File file4 = new File("README.txt");
+
+            folder1.Add(file1);
+            folder1.Add(file2);
+            folder2.Add(file3);
+
+            mainFolder.Add(folder1);
+            mainFolder.Add(folder2);
+            mainFolder.Add(file4);
+
+            mainFolder.Display(1);
+        }
+
+        public interface IMenuCompanent
+        {
+            void Display(int spaces);
+        }
+
+        public class File : IMenuCompanent
+        {
+            private string name;
+
+            public File(string name)
+            {
+                this.name = name;
+            }
+
+            public void Display(int spaces)
+            {
+                for (int i = 0; i < spaces; i++)
+                {
+                    Console.Write("  ");
+                }
+
+                Console.WriteLine($"Файл: {name}");
+            }
+        }
+
+        public class Folder : IMenuCompanent
+        {
+
+            private string name;
+            private List<IMenuCompanent> items = new List<IMenuCompanent>();
+
+            public Folder(string name)
+            {
+                this.name = name;
+            }
+
+            public void Add(IMenuCompanent component)
+            {
+                items.Add(component);
+            }
+
+            public void Remove(IMenuCompanent component)
+            {
+                items.Remove(component);
+            }
+            public void Display(int spaces)
+            {
+
+                for (int i = 0; i < spaces; i++)
+                {
+                    Console.Write("  ");
+                }
+
+                Console.WriteLine($"Папка: {name}");
+
+                foreach (var item in items)
+                {
+                    item.Display(spaces + 1);
+                }
+            }
+        }
+    }
+}
