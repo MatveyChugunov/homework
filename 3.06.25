@@ -1,0 +1,163 @@
+1)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _3._06._25
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Kitchen kitchen = new Kitchen();
+            DeliveryService delivery = new DeliveryService();
+            PaymentService payment = new PaymentService();
+
+            PizzaOrderFacade order = new PizzaOrderFacade(kitchen, delivery, payment);
+
+            order.PlaceOrder();
+        }
+
+        public class Kitchen
+        {
+            public void PrepairPizza()
+            {
+                Console.WriteLine("Пицца готовится...");
+            }
+        }
+
+        public class DeliveryService
+        {
+            public void DeliverPizza()
+            {
+                Console.WriteLine("Пицца доставляется...");
+            }
+        }
+
+        public class PaymentService
+        {
+            public void ProcessPayment()
+            {
+                Console.WriteLine("Оплата принимается...");
+            }
+        }
+
+        public class PizzaOrderFacade
+        {
+            private Kitchen kitchen;
+            private DeliveryService delivery;
+            private PaymentService payment;
+
+            public PizzaOrderFacade(Kitchen kitchen, DeliveryService delivery, PaymentService payment)
+            {
+                this.kitchen = kitchen;
+                this.delivery = delivery;
+                this.payment = payment;
+            }
+
+            public void PlaceOrder()
+            {
+                payment.ProcessPayment();
+                kitchen.PrepairPizza();
+                delivery.DeliverPizza();
+            }
+        }
+    }
+}
+----------------------------------------------------------------------------------------------------------
+2)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FlyWeight
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            var flowers = new List<Flower>();
+
+            var flowerType1 = new FlowerType("роза", "красная", "шиповный");
+            var flowerType2 = new FlowerType("ромашка", "белый", "гладкий");
+
+            for (int i = 0; i < 10; i++)
+            {
+                var tree = new Flower(flowerType1, i * 14, i * 8, i + 2);
+                flowers.Add(tree);
+            }
+
+            for (int i = 0; i < 15; i++)
+            {
+                var tree = new Flower(flowerType2, i * 6, i * 12, i / 3);
+                flowers.Add(tree);
+            }
+
+            foreach (var tree in flowers)
+            {
+                tree.Display();
+            }
+        }
+
+        public class FlowerType
+        {
+            public string Name { get; }
+            public string Color { get; }
+            public string Texture { get; set; }
+
+            public FlowerType(string name, string color, string texture)
+            {
+                Name = name;
+                Color = color;
+                Texture = texture;
+            }
+
+            public void Display(int x, int y, int height)
+            {
+                Console.WriteLine($"Цветок типа {Name} с цветом лепестков {Color} и текстурой стебля {Texture} находится на координатах ({x},{y},{height})");
+            }
+        }
+
+        public class Flower
+        {
+            private FlowerType _type;
+            private int _x { get; set; }
+            private int _y { get; set; }
+            private int _height { get; set; }
+
+            public Flower(FlowerType type, int x, int y, int height)
+            {
+                _type = type;
+                _x = x;
+                _y = y;
+                _height = height;
+            }
+
+            public void Display()
+            {
+                _type.Display(_x, _y, _height);
+            }
+        }
+
+        public class FlowerFactory
+        {
+            private static Dictionary<string, FlowerType> _treeTypes = new Dictionary<string, FlowerType>();
+
+            public static FlowerType GetTreeType(string name, string color, string texture)
+            {
+                string key = $"{name} {color} {texture}";
+                if (!_treeTypes.ContainsKey(key))
+                {
+                    _treeTypes[key] = new FlowerType(name, color, texture);
+
+                    Console.WriteLine($"Создан новый тип цветка: {key}");
+                }
+                return _treeTypes[key];
+            }
+        }
+    }
+}
